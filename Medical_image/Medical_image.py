@@ -12,46 +12,46 @@ from keras.optimizers import Adam
 #dimensions of our images.
 img_width, img_height = 299,299
 
-train_data_dir = './data/TRAIN'
-validation_data_dir = './data/VAL'
+train_data_dir = './data/TRAIN' # 트레이닝 데이터 위치
+validation_data_dir = './data/VAL' # 확인 데이터 위치
 
 # number of samples used for determining the samples_per_epoch
-nb_train_samples = 65
-nb_validation_samples = 10
-epochs = 20
-batch_size = 5
+nb_train_samples = 65 # 트레이닝 데이터 개수
+nb_validation_samples = 10 # 확인 데이터 개수
+epochs = 20 # 총 반복 횟수
+batch_size = 5 # 한번에 5개의 데이터를 학습시킴
 
 train_datagen = ImageDataGenerator(
-    rescale=1./255,
+    rescale=1./255, # nomalize pixel values to [0,1]
     shear_range=0.2,
     zoom_range=0.2,
     rotation_range=20,
     width_shift_range=0.2,
     height_shift_range=0.2,
-    horizontal_flip=True  )
+    horizontal_flip=True  ) # 자르고 , 줌, 회전, 좌우 이동, 수평뒤집기 사용하여 overfitting 방지
 
 val_datagen = ImageDataGenerator(
          rescale=1./255)       # normalize pixel values to [0,1]
 
-train_generator = train_datagen.flow_from_directory(
+train_generator = train_datagen.flow_from_directory( # 트레이닝 데이터 일반화
     train_data_dir,
     target_size=(img_height, img_width),
     batch_size=batch_size,
     class_mode='binary')
 
-validation_generator = train_datagen.flow_from_directory(
+validation_generator = train_datagen.flow_from_directory( # 확인 데이터 일반화
     validation_data_dir,
     target_size=(img_height, img_width),
     batch_size=batch_size,
     class_mode='binary')
 
-base_model = applications.InceptionV3(weights='imagenet', include_top=False, input_shape=(img_width, img_height, 3))
+base_model = applications.InceptionV3(weights='imagenet', include_top=False, input_shape=(img_width, img_height, 3)) # 기본 모델은 InceptionV3를 사용
 
-model_top = Sequential()
-model_top.add(GlobalAveragePooling2D(input_shape=base_model.output_shape[1:], data_format=None)),
-model_top.add(Dense(256, activation='relu'))
-model_top.add(Dropout(0.5))
-model_top.add(Dense(1, activation='sigmoid'))
+model_top = Sequential() # 해당 레이어 추가하기 위한 작업
+model_top.add(GlobalAveragePooling2D(input_shape=base_model.output_shape[1:], data_format=None)), # pooling
+model_top.add(Dense(256, activation='relu')) # relu
+model_top.add(Dropout(0.5)) # dropout
+model_top.add(Dense(1, activation='sigmoid')) # sigmoid
 
 model = Model(inputs=base_model.input, outputs=model_top(base_model.output))
 
@@ -65,7 +65,7 @@ history = model.fit_generator(
             validation_data=validation_generator,
             validation_steps=nb_validation_samples // batch_size)
 
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt # 그래프를 그리기 위한 라이브러리
 
 print(history.history.keys())
 
@@ -80,8 +80,8 @@ plt.show()
 import numpy as np
 from keras.preprocessing import image
 
-img_path='/home/username/data/Open_I_abd_vs_CXRs/TRAIN/chest1.png' #change to location of chest x-ray
-img_path2='/home/username/data/Open_I_abd_vs_CXRs/TRAIN/abd2.png'  #change to location of abd x-ray
+img_path='./data/TRAIN/chest1.png' #change to location of chest x-ray
+img_path2='./data/TRAIN/abd2.png'  #change to location of abd x-ray
 img = image.load_img(img_path, target_size=(img_width, img_height))
 img2 = image.load_img(img_path2, target_size=(img_width, img_height))
 plt.imshow(img)
