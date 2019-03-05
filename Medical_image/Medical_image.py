@@ -80,8 +80,8 @@ plt.show()
 import numpy as np
 from keras.preprocessing import image
 
-img_path='./data/TRAIN/chest1.png' #change to location of chest x-ray
-img_path2='./data/TRAIN/abd2.png'  #change to location of abd x-ray
+img_path='./data/TEST/chest2.png' #change to location of chest x-ray
+img_path2='./data/TEST/abd2.png'  #change to location of abd x-ray
 img = image.load_img(img_path, target_size=(img_width, img_height))
 img2 = image.load_img(img_path2, target_size=(img_width, img_height))
 plt.imshow(img)
