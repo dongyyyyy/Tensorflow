@@ -45,8 +45,13 @@ validation_generator = train_datagen.flow_from_directory( # 확인 데이터 일
     batch_size=batch_size,
     class_mode='binary')
 
-base_model = applications.InceptionV3(weights='imagenet', include_top=False, input_shape=(img_width, img_height, 3)) # 기본 모델은 InceptionV3를 사용
-
+base_model = applications.InceptionV3(weights=None, include_top=False, input_shape=(img_width, img_height, 3)) # 기본 모델은 InceptionV3를 사용
+# include_top : 네트워크 상단에 완전히 연결된 레이어를 포함할지 여부.
+# weights : None (임의 초기화), 'imagenet'(ImageNet 사전 학습) 또는로드 할 가중치 파일의 경로.
+# input_tensor : 모델의 이미지 입력으로 사용할 layers.Input() 텐서 (예 : layers.Input() 출력)입니다.
+# input_shape : 선택적 모양 튜플. include_top 이 False 인 경우에만 지정됩니다. 그렇지 않으면 입력 모양이 channels_last 데이터 형식 인 (299, 299, 3) ) 또는 (3, 299, 299) 이어야합니다 (299, 299, 3) channels_first 데이터 형식). 정확히 3 개의 입력 채널을 가져야하며 너비와 높이는 139보다 작아야합니다. 예 : (150, 150, 3) 은 하나의 유효한 값입니다.
+# pooling : include_top 이 False 경우 피쳐 추출을위한 선택적 풀링 모드입니다. - None 은 모델의 출력이 마지막 길쌈 레이어의 4D 텐서 출력이됨을 의미합니다. - avg 는 전역 평균 풀이가 마지막 길쌈 레이어의 출력에 적용되므로 모델의 출력이 2D 텐서가됨을 의미합니다. - max 는 글로벌 max pooling이 적용됨을 의미합니다.
+# classes : 이미지를 분류하는 클래스의 수 (선택 사항), include_top 이 True 일 때만 지정되며 weights 인수가 지정되지 않은 경우.
 model_top = Sequential() # 해당 레이어 추가하기 위한 작업
 model_top.add(GlobalAveragePooling2D(input_shape=base_model.output_shape[1:], data_format=None)), # pooling
 model_top.add(Dense(256, activation='relu')) # relu
