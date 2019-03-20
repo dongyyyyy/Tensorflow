@@ -34,3 +34,4 @@ for step in range(5001):
 
 # 예측값 출력
 print(sess.run(hypothesis,feed_dict={X1:[8],X2:[8]}))
+

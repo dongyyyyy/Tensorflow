@@ -4,19 +4,26 @@ def makeFun(N):
 
 def function(x,y,Matrix):
     count = 0
-    for i in range(pow(2,N)):
+    for i in range(0,pow(2,N),2):
         for j in range(pow(2,N)):
-            if j == 0:
-                if i == 0:
-                    Matrix[i][j] = 1
-                elif i%2 == 0:
-                    Matrix[i][j] = Matrix[i-1][pow(2,N)-1]+1
-                else:
-                    Matrix[i][j] = int(Matrix[i - 1][j]) + 2
-            elif j%2 == 0: # 2 , 4 , 6 ...
-                Matrix[i][j] = int(Matrix[i][j-1])+3
-            else: # 1 , 3 , 5 ...
-                Matrix[i][j] = int(Matrix[i][j-1])+1
+            if j % 2 == 0:
+                count += 1
+                Matrix[i][j] = count
+                if i == x and j == y :
+                    return Matrix
+            else :
+                count +=1
+                Matrix[i][j] = count
+                if i == x and j == y :
+                    return Matrix
+                count += 1
+                Matrix[i+1][j-1] = count
+                if i+1 == x and j-1 == y :
+                    return Matrix
+                count += 1
+                Matrix[i+1][j] = count
+                if i+1 == x and j == y :
+                    return Matrix
     print()
     return Matrix
 
