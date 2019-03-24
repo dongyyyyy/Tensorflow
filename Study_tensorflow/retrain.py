@@ -14,7 +14,7 @@
 # ==============================================================================
 # NOTICE: This work was derived from tensorflow/examples/image_retraining
 # and modified to use TensorFlow Hub modules.
-
+#
 # pylint: disable=line-too-long
 r"""Simple transfer learning with image modules from TensorFlow Hub.
 
