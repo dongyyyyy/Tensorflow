@@ -1161,7 +1161,7 @@ if __name__ == '__main__':
   parser.add_argument(
       '--image_dir',
       type=str,
-      default='./flower_photos',
+      default='/tmp/flower_photos',
       help='Path to folders of labeled images.'
   )
   parser.add_argument(
