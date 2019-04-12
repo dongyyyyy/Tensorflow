@@ -1,1 +1,1 @@
-<h2>Study Tensorflow basic Example</h2>
+<h2>Study Tensorflow basic Example & Study Algorithm </h2>
